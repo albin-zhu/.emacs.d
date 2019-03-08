@@ -246,12 +246,15 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
 
 * applications
 
-** git
+** TODO git
 magit最好用的,没有之一
 #+BEGIN_SRC emacs-lisp
-  (use-package magit)
-  (use-package magit-gitflow)
-  (use-package magit-org-todos)
+    ;; todo: add bind
+    (use-package magit
+      :bind
+      (("H-g s" . magit-status)))
+    (use-package magit-gitflow)
+    (use-package magit-org-todos)
 #+END_SRC
 
 #+RESULTS:
