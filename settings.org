@@ -1,0 +1,257 @@
+#+title: albin's emacs configure
+#+author: albin<albinyewen@gmail.com>
+
+* Set elpa for China
+最好换成清华大学的 elpa 那个相对比较快一点.
+#+BEGIN_SRC emacs-lisp
+  (setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                           ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
+  (package-initialize) ;; You might already have this line
+
+  (when (not package-archive-contents)
+      (package-refresh-contents))
+
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
+
+  (require 'use-package)
+  (setq use-package-always-ensure t)
+
+#+END_SRC
+
+#+RESULTS:
+
+* Default Settings  
+** tab
+#+BEGIN_SRC emacs-lisp
+  (setq default-tab-width 4)
+  (setq-default indent-tabs-mode nil)
+  (global-linum-mode t)
+#+END_SRC
+** change-key-for-osx
+#+BEGIN_SRC emacs-lisp
+  (setq mac-command-modifier 'hyper)
+  (global-set-key (kbd "H-z") 'undo)
+  (global-set-key (kbd "H-y") 'undo-tree-redo)
+  (global-set-key (kbd "C-H-f") 'toggle-frame-fullscreen)
+  (global-set-key (kbd "H-f") 'toggle-frame-maximized)
+  (global-set-key (kbd "H-2") 'shell)
+  (global-set-key (kbd "H-k") 'kill-this-buffer)
+#+END_SRC
+
+#+RESULTS:
+: kill-this-buffer
+
+** yesorno
+这个不用多想了吧
+#+BEGIN_SRC emacs-lisp
+  (defalias 'yes-or-no-p 'y-or-n-p)
+#+END_SRC
+
+** GUI
+去掉一些没用的 tool-bar,scroll-bar
+   #+BEGIN_SRC emacs-lisp
+     (tool-bar-mode -1)
+     (scroll-bar-mode -1)
+
+     (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+     (add-to-list 'default-frame-alist '(ns-appearance . dark)) ;; assuming you are using a dark theme
+     (add-to-list 'default-frame-alist '(fullscreen . maximized))
+     (setq ns-use-proxy-icon nil)
+     (setq frame-title-format nil)
+   #+END_SRC
+
+** window-numbering
+这个已经习惯了，meat+123 去切换了。
+   #+BEGIN_SRC emacs-lisp
+     (use-package window-numbering
+       :init
+       (window-numbering-mode t))
+   #+END_SRC
+
+** exec-path-from-shell
+brew很好用,但它的安装路径,只会体现在shell variables里,我这里需要把shell path读到emacs的exec-path里,这样我的emacs里用的东西才可能是我想要的.
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :init
+    (exec-path-from-shell-initialize))
+#+END_SRC
+** undo-tree
+这个其实最好不要用,如果需要大规模的撤销,说明没想好写什么,尽量还是用上边的Command-z,Command-y
+#+BEGIN_SRC emacs-lisp
+  (use-package undo-tree
+    :init
+    (global-undo-tree-mode t)
+    )
+#+END_SRC
+** multiple-cursors
+我非常喜欢sublime里的多行模式,以及标记相同单词,这里必须加进来.
+#+BEGIN_SRC emacs-lisp
+  (use-package multiple-cursors
+    :bind (
+           ("H-l" . mc/edit-lines)
+           ("H-d" . mc/mark-next-like-this)
+           ("C-M-H-d" . mc/mark-all-like-this)))
+#+END_SRC
+
+** ivy
+  #+BEGIN_SRC emacs-lisp
+    (use-package smex)
+    (use-package counsel)
+    (use-package ivy-rich)
+    (use-package ivy-hydra)
+    (use-package ivy
+      :init
+      (ido-mode -1)
+      (ivy-mode t)
+      (global-set-key (kbd "M-x") 'counsel-M-x)
+      (global-set-key (kbd "C-s") 'swiper)
+      (global-set-key (kbd "H-p") 'switch-to-prev-buffer)
+      (global-set-key (kbd "H-o") 'counsel-recentf)
+      )
+  #+END_SRC
+
+  #+RESULTS:
+
+*** TODO switch to recent buffer
+* theme
+主题这一块还是想抄成 doom，毕竟比较好看
+** font
+   #+BEGIN_SRC emacs-lisp
+     (set-frame-font "-*-Menlo-normal-normal-normal-*-18-*-*-*-m-0-iso10646-1")
+
+   #+END_SRC
+*** TODO 这个还差一个中英文混排的问题，尤其是在 org-mode table 里
+** doom-theme
+  #+BEGIN_SRC emacs-lisp
+    (use-package doom-themes
+      :init
+      (setq custom-safe-themes t) ;; 不需要弹出确定
+      (load-theme 'doom-city-lights))
+  #+END_SRC
+
+  #+RESULTS:
+
+** doom-mode-line
+这个还没有自定义，默认的已经足够我用的了
+   #+BEGIN_SRC emacs-lisp
+     (use-package doom-modeline
+       :init
+       (doom-modeline-mode t)
+       )
+   #+END_SRC
+** transparent
+装逼用的,不装也没事
+#+BEGIN_SRC emacs-lisp
+  (set-frame-parameter nil 'alpha '(100 . 100))
+  (defun more-transparency ()
+    (interactive)
+    (let* ((opacity (+ (car (frame-parameter nil 'alpha)) 10)))    
+      (setq opacity (if (> opacity 100)
+           100
+         opacity))
+      (set-frame-parameter nil 'alpha `(,opacity . 100))))
+
+  (defun less-transparency ()
+    (interactive)
+    (let* ((opacity (- (car (frame-parameter nil 'alpha)) 10)))
+      (setq opacity (if (< opacity 50)
+           50
+         opacity))
+      (set-frame-parameter nil 'alpha `(,opacity . 100))))
+
+  (global-set-key (kbd "<H-right>") 'more-transparency)
+  (global-set-key (kbd "<H-left>") 'less-transparency)
+#+END_SRC
+
+#+RESULTS:
+: less-transparency
+
+* org-mode
+** indent mode
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook 'org-indent-mode)
+#+END_SRC
+
+** beautify
+#+BEGIN_SRC emacs-lisp
+  (use-package org-bullets
+    :hook
+    (org-mode . org-bullets-mode)
+    )
+#+END_SRC
+
+** preview
+现在只做一个 html 的预览就足够了，pdf 的那个太废时间了
+#+BEGIN_SRC emacs-lisp
+  (use-package org-preview-html)
+  (use-package htmlize)
+#+END_SRC
+
+* 基础补全
+** company/lsp
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :init
+    (global-company-mode t)
+    (global-auto-composition-mode))
+  (use-package company-lsp
+    :after compnay
+    :init
+    (push 'company-lsp compyany-backends))
+#+END_SRC
+
+#+RESULTS:
+
+** 括号
+1. 高亮匹配
+   #+BEGIN_SRC emacs-lisp
+     (use-package highlight-parentheses
+         :init
+         (global-highlight-parentheses-mode t)
+         )
+   #+END_SRC
+2. 补全
+   #+BEGIN_SRC emacs-lisp
+     (use-package paredit
+       :hook
+       (c-mode-common             . paredit-mode)
+       (c-mode                    . paredit-mode)
+       (c++-mode                  . paredit-mode)
+       (java-mode                 . paredit-mode)
+       (haskell-mode              . paredit-mode)
+       (emacs-lisp-mode           . paredit-mode)
+       (lisp-interaction-mode     . paredit-mode)
+       (lisp-mode                 . paredit-mode)
+       (maxima-mode               . paredit-mode)
+       (ielm-mode                 . paredit-mode)
+       (sh-mode                   . paredit-mode)
+       (makefile-gmake-mode       . paredit-mode)
+       (php-mode                  . paredit-mode)
+       (python-mode               . paredit-mode)
+       (js-mode                   . paredit-mode)
+       (go-mode                   . paredit-mode)
+       (qml-mode                  . paredit-mode)
+       (jade-mode                 . paredit-mode)
+       (css-mode                  . paredit-mode)
+       (ruby-mode                 . paredit-mode)
+       (coffee-mode               . paredit-mode)
+       (rust-mode                 . paredit-mode)
+       (qmake-mode                . paredit-mode)
+       (lua-mode                  . paredit-mode)
+       (swift-mode                . paredit-mode)
+       (minibuffer-inactive-mode  . paredit-mode)
+       )    
+   #+END_SRC
+
+* applications
+
+** git
+magit最好用的,没有之一
+#+BEGIN_SRC emacs-lisp
+  (use-package magit)
+  (use-package magit-gitflow)
+  (use-package magit-org-todos)
+#+END_SRC
+
+#+RESULTS:

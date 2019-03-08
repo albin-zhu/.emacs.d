@@ -1,0 +1,10 @@
+.DS_Store
+.lsp-session-v1
+*.dat
+auto-save-list
+elpa
+recentf
+*~
+/settings.el
+/smex-items
+elpa
