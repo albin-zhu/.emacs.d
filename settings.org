@@ -188,6 +188,208 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
   (use-package htmlize)
 #+END_SRC
 
+** org-capture-screen
+#+begin_src emacs-lisp
+  (defun my-org-screenshot ()
+    "Take a screenshot into a time stamped unique-named file in the
+  same directory as the org-buffer and insert a link to this file."
+    (interactive)
+    (org-display-inline-images)
+    (setq filename
+          (concat
+           (make-temp-name
+            (concat (file-name-nondirectory (buffer-file-name))
+                    "_imgs/"
+                    (format-time-string "%Y%m%d_%H%M%S_")) ) ".png"))
+    (unless (file-exists-p (file-name-directory filename))
+      (make-directory (file-name-directory filename)))
+            ; take screenshot
+    (if (eq system-type 'darwin)
+        (progn
+    (call-process-shell-command "screencapture" nil nil nil nil " -s " (concat
+                        "\"" filename "\"" ))
+    (call-process-shell-command "convert" nil nil nil nil (concat "\"" filename "\" -resize  \"50%\"" ) (concat "\"" filename "\"" ))
+    ))
+    (if (eq system-type 'gnu/linux)
+        (call-process "import" nil nil nil filename))
+            ; insert into file if correctly taken
+    (if (file-exists-p filename)
+        (insert (concat "[[file:" filename "]]")))
+    (org-display-inline-images)
+    )
+
+  (global-set-key (kbd "C-c s c") 'my-org-screenshot)
+#+end_src
+
+#+RESULTS:
+: my-org-screenshot
+** load-languages
+#+begin_src emacs-lisp
+    (custom-set-variables
+     '(org-babel-load-languages
+       (quote
+        ((shell . t)
+         (python . t)
+         (mysql . t)
+         (emacs-lisp . t)
+         (sql . t)
+         (C . t)
+         (js . t)))))
+#+end_src
+
+#+RESULTS:
+** capture
+#+begin_src emacs-lisp
+  (setq org-capture-templates
+        `(("i" "inbox" entry (file "~/.org/gtd/inbox.org")
+           "* TODO %?")
+          ("p" "paper" entry (file "~/.org/papers/papers.org")
+           "* TODO %(jethro/trim-citation-title \"%:title\")\n%a" :immediate-finish t)
+          ("e" "email" entry (file+headline "~/.org/gtd/emails.org" "Emails")
+           "* TODO [#A] Reply: %a :@home:@school:" :immediate-finish t)
+          ("l" "link" entry (file "~/.org/gtd/inbox.org")
+           "* TODO %(org-cliplink-capture)" :immediate-finish t)
+          ("z" "elfeed-link" entry (file "~/.org/gtd/inbox.org")
+           "* TODO %a\n" :immediate-finish t)
+          ("w" "Weekly Review" entry (file+olp+datetree "~/.org/gtd/reviews.org")
+           (file "~/.org/gtd/templates/weekly_review.org"))
+          ("s" "Snippet" entry (file "~/.org/deft/capture.org")
+           "* Snippet %<%Y-%m-%d %H:%M>\n%?")))
+#+end_src
+** no-confirm for org-babel
+#+begin_src emacs-lisp
+  (setq org-confirm-babel-evaluate nil)
+#+end_src
+
+#+RESULTS:
+
+** org-project
+#+begin_src emacs-lisp
+  (setq org-publish-project-alist
+        '(
+          ;; These are the main web files
+          ("org-notes"
+           :base-directory "~/orgs" ;; Change this to your local dir
+           :base-extension "org"
+           :publishing-directory "~/orgs"
+
+           :recursive t
+           :publishing-function org-html-publish-to-html
+           :headline-levels 4
+           :section-numbers nil
+           :auto-preamble t
+           :with-toc t
+
+           :sitemap-file-entry-format "%d ====> %t"
+           :sitemap-sort-files anti-chronologically
+           :sitemap-filename "index.org"
+           :sitemap-title "湖南久翼(研发)Wiki"
+           :auto-sitemap t
+
+           :html-doctype "html5"
+           :html-validation-link nil
+           :html-link-home "/index.html"
+           :html-link-up "/index.html"
+
+           :author "albin"
+           :email "yabin_zhu@staff.9you.com"
+           :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/org-mode.css\"/>"
+           :language "zh-CN"
+
+
+           ;; :recursive t
+           ;; :publishing-function org-html-publish-to-html;org-html-export-to-html;org-publish-org-to-html
+           ;; :headline-levels 4             ; Just the default for this project.
+           ;; :auto-preamble nil
+           ;; :inex-filename "index.org"
+           ;; :index-title "湖南久翼(研发)Wiki"
+           ;; ;; Layersmenu:
+           ;; :completion-function sr-org-notes-sitemap-complete
+           ;; :menu/structure-file "~/path/to/menu-structure-file.txt"
+           ;; :menu/link-target "mitte" ;; optional
+           ;; :section-numbers nil
+           ;; :table-of-contents t
+           ;; :html-head-extra "<link rel='stylesheet' type='text/css' href='/css/worg.css' />"
+           ;; :style-include-default nil
+           )
+
+          ;; These are static files (images, pdf, etc)
+          ("org-static"
+           :base-directory "~/orgs" ;; Change this to your local dir
+           :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|txt\\|asc"
+           :publishing-directory "~/orgs"
+           :recursive t
+           :publishing-function org-publish-attachment
+           )
+
+          ("org" :components ("org-notes" "org-static"))
+          )
+        )
+
+  (defun publish-project (project no-cache)
+    (interactive "sName of project: \nsNo-cache?[y/n] ")
+    (if (or (string= no-cache "y")
+            (string= no-cache "Y"))
+        (setq org-publish-use-timestamps-flag nil))
+    (org-publish-project project)
+    (setq org-publish-use-timestamps-flag t))
+#+end_src
+
+#+RESULTS:
+: publish-project
+
+** mysql-mode
+#+begin_src emacs-lisp
+  (require 'ob-shell)
+
+  (defun org-babel-execute:mysql (body params)
+    (let* ((session (org-babel-sh-initiate-session
+                     (cdr (assq :session params))))
+           (stdin (let ((stdin (cdr (assq :stdin params))))
+                    (when stdin (org-babel-sh-var-to-string
+                                 (org-babel-ref-resolve stdin)))))
+           (cmdline (cdr (assq :cmdline params)))
+           (full-body (org-babel-expand-body:generic
+                       body params (org-babel-variable-assignments:shell params))))
+      (org-babel-reassemble-table
+       (org-babel-sh-evaluate session (concat cmdline " " full-body) params stdin "")
+       (org-babel-pick-name
+        (cdr (assq :colname-names params)) (cdr (assq :colnames params)))
+       (org-babel-pick-name
+        (cdr (assq :rowname-names params)) (cdr (assq :rownames params)))))
+    )
+
+#+end_src
+
+** COMMENT emails
+#+begin_src emacs-lisp
+  (setq nnimap-sequence 1)
+  (setq gnus-secondary-select-methods
+        '(
+          (nnimap "gmail"
+                  (nnimap-address
+                   "imap.gmail.com")
+                  (nnimap-server-port 993)
+                  (nnimap-stream ssl))
+          ))
+
+  (setq nnml-directory "~/staff_mail")
+  (setq message-directory "~/staff_mail")
+#+end_src
+
+#+RESULTS:
+: ~/staff_mail
+
+** export to pdf
+#+begin_src emacs-lisp
+  (setq org-latex-pdf-process '("xelatex -interaction nonstopmode %f"
+                                "xelatex -interaction nonstopmode %f"))
+#+end_src
+
+#+RESULTS:
+| xelatex -interaction nonstopmode %f | xelatex -interaction nonstopmode %f |
+
+
 * 基础补全
 ** company/lsp
 #+BEGIN_SRC emacs-lisp
