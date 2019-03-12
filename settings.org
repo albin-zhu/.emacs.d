@@ -4,8 +4,8 @@
 * Set elpa for China
 最好换成清华大学的 elpa 那个相对比较快一点.
 #+BEGIN_SRC emacs-lisp
-  (setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                           ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
+  (setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
+                           ("melpa" . "http://elpa.emacs-china.org/melpa/")))
   (package-initialize) ;; You might already have this line
 
   (when (not package-archive-contents)
@@ -37,10 +37,12 @@
   (global-set-key (kbd "H-f") 'toggle-frame-maximized)
   (global-set-key (kbd "H-2") 'shell)
   (global-set-key (kbd "H-k") 'kill-this-buffer)
+  (global-set-key (kbd "H-i") `(lambda () (interactive) (find-file, "~/.emacs.d/settings.org")))
+  (global-set-key (kbd "H-q") 'kill-emacs)
 #+END_SRC
 
 #+RESULTS:
-: kill-this-buffer
+: kill-emacs
 
 ** yesorno
 这个不用多想了吧
@@ -102,7 +104,6 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
     (use-package ivy-hydra)
     (use-package ivy
       :init
-      (ido-mode -1)
       (ivy-mode t)
       (global-set-key (kbd "M-x") 'counsel-M-x)
       (global-set-key (kbd "C-s") 'swiper)
@@ -168,11 +169,6 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
 : less-transparency
 
 * org-mode
-** indent mode
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'org-mode-hook 'org-indent-mode)
-#+END_SRC
-
 ** beautify
 #+BEGIN_SRC emacs-lisp
   (use-package org-bullets
@@ -238,7 +234,7 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
 #+end_src
 
 #+RESULTS:
-** capture
+** capture and agenda
 #+begin_src emacs-lisp
   (setq org-capture-templates
         `(("i" "inbox" entry (file "~/.org/gtd/inbox.org")
@@ -256,6 +252,10 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
           ("s" "Snippet" entry (file "~/.org/deft/capture.org")
            "* Snippet %<%Y-%m-%d %H:%M>\n%?")))
 #+end_src
+
+#+RESULTS:
+| quote | (~/.org/gtd/inbox.org ~/.org/gtd/2018.org) |
+
 ** no-confirm for org-babel
 #+begin_src emacs-lisp
   (setq org-confirm-babel-evaluate nil)
@@ -386,8 +386,19 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
                                 "xelatex -interaction nonstopmode %f"))
 #+end_src
 
+** keybinding
+#+begin_src emacs-lisp
+  (global-set-key (kbd "H-a") 'org-agenda)
+#+end_src
+
+** indent mode and 8.x
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook 'org-indent-mode)
+  (require 'org-tempo)
+#+END_SRC
+
 #+RESULTS:
-| xelatex -interaction nonstopmode %f | xelatex -interaction nonstopmode %f |
+: org-tempo
 
 
 * 基础补全
@@ -442,7 +453,7 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
        (qmake-mode                . paredit-mode)
        (lua-mode                  . paredit-mode)
        (swift-mode                . paredit-mode)
-       (minibuffer-inactive-mode  . paredit-mode)
+       ;(minibuffer-inactive-mode  . paredit-mode)
        )    
    #+END_SRC
 
@@ -460,3 +471,10 @@ magit最好用的,没有之一
 #+END_SRC
 
 #+RESULTS:
+
+** docker
+#+begin_src emacs-lisp
+  (use-package docker)
+  (use-package yaml-mode)
+  (use-package docker-compose-mode)
+#+end_src
