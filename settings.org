@@ -400,11 +400,11 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
 ** indent mode and 8.x
 #+BEGIN_SRC emacs-lisp
   (add-hook 'org-mode-hook 'org-indent-mode)
-  (require 'org-tempo)
+  (if (string= system-type "darwin")
+      (require 'org-tempo))
 #+END_SRC
 
 #+RESULTS:
-: org-tempo
 
 
 * 基础补全
