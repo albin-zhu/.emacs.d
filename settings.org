@@ -119,9 +119,15 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
 主题这一块还是想抄成 doom，毕竟比较好看
 ** font
    #+BEGIN_SRC emacs-lisp
-     (set-frame-font "-*-Menlo-normal-normal-normal-*-18-*-*-*-m-0-iso10646-1")
+     (if (string= system-type "darwin")
+         (set-frame-font "-*-Menlo-normal-normal-normal-*-18-*-*-*-m-0-iso10646-1")
+        (set-frame-font "-*-DejaVu Sans Mono-normal-normal-normal-*-18-*-*-*-m-0-iso10646-1")
+       )
 
    #+END_SRC
+
+   #+RESULTS:
+
 *** TODO 这个还差一个中英文混排的问题，尤其是在 org-mode table 里
 ** doom-theme
   #+BEGIN_SRC emacs-lisp

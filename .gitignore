@@ -7,3 +7,5 @@ recentf
 /settings.el
 /smex-items
 elpa
+/.cache
+/transient
