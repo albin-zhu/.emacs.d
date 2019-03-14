@@ -478,3 +478,10 @@ magit最好用的,没有之一
   (use-package yaml-mode)
   (use-package docker-compose-mode)
 #+end_src
+
+** treemacs
+#+begin_src emacs-lisp
+  (use-package treemacs)
+#+end_src
+
+#+RESULTS:
