@@ -35,7 +35,7 @@
   (global-set-key (kbd "H-y") 'undo-tree-redo)
   (global-set-key (kbd "C-H-f") 'toggle-frame-fullscreen)
   (global-set-key (kbd "H-f") 'toggle-frame-maximized)
-  (global-set-key (kbd "H-2") 'shell)
+  (global-set-key (kbd "H-2") 'multi-term)
   (global-set-key (kbd "H-k") 'kill-this-buffer)
   (global-set-key (kbd "H-i") `(lambda () (interactive) (find-file, "~/.emacs.d/settings.org")))
   (global-set-key (kbd "H-q") 'kill-emacs)
@@ -493,3 +493,24 @@ magit最好用的,没有之一
 #+end_src
 
 #+RESULTS:
+
+** shell
+#+begin_src emacs-lisp
+  (defun my-buffer-face-mode-fixed ()
+     (interactive)
+     (setq buffer-face-mode-face '(:family "DejaVu Sans Mono for Powerline"))
+     (buffer-face-mode))
+
+  (use-package multi-term
+    :init
+    (setq multi-term-program "/bin/zsh")
+    :hook
+    (shell-mode my-buffer-face-mode-fixed)
+    :bind
+    (
+     ("C-H-<left>" . multi-term-prev)
+     ("C-H-<right>" . multi-term-next)))
+#+end_src
+
+#+RESULTS:
+| multi-term |
