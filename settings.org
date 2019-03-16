@@ -26,8 +26,12 @@
 #+BEGIN_SRC emacs-lisp
   (setq default-tab-width 4)
   (setq-default indent-tabs-mode nil)
-  (global-linum-mode t)
+  ;; (global-linum-mode t)
+
 #+END_SRC
+
+#+RESULTS:
+
 ** change-key-for-osx
 #+BEGIN_SRC emacs-lisp
   (setq mac-command-modifier 'hyper)
@@ -39,10 +43,12 @@
   (global-set-key (kbd "H-k") 'kill-this-buffer)
   (global-set-key (kbd "H-i") `(lambda () (interactive) (find-file, "~/.emacs.d/settings.org")))
   (global-set-key (kbd "H-q") 'kill-emacs)
+  (global-set-key (kbd "H-c") 'kill-ring-save)
+  (global-set-key (kbd "H-v") 'yank)
 #+END_SRC
 
 #+RESULTS:
-: kill-emacs
+: yank
 
 ** yesorno
 这个不用多想了吧
