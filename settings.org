@@ -124,6 +124,16 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
   #+RESULTS:
 
 *** TODO switch to recent buffer
+
+** which-key
+#+begin_src emacs-lisp
+  (use-package which-key
+    :init
+    (which-key-mode t))
+#+end_src
+
+#+RESULTS:
+
 * theme
 主题这一块还是想抄成 doom，毕竟比较好看
 ** font
@@ -422,13 +432,16 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
     :init
     (global-company-mode t)
     (global-auto-composition-mode))
-  (use-package company-lsp
-    :after compnay
-    :init
-    (push 'company-lsp compyany-backends))
 #+END_SRC
 
 #+RESULTS:
+** ycmd
+lsp最近好像不太好用,还是改用ycmd
+*** 基础环境
+- python3
+  #+begin_src sh
+    brew install python
+  #+end_src
 
 ** 括号
 1. 高亮匹配
