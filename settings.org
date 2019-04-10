@@ -432,10 +432,21 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
     :init
     (global-company-mode t)
     (global-auto-composition-mode))
+  (use-package company-lsp
+    :after compnay
+    :init
+    (push 'company-lsp compyany-backends))
+#+END_SRC
+*** python
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'python-mode-hook `(lambda () (lsp)))
 #+END_SRC
 
 #+RESULTS:
-** ycmd
+| (lambda nil (lsp)) | paredit-mode | doom-modeline-env-setup-python |
+
+
+** COMMENT ycmd
 lsp最近好像不太好用,还是改用ycmd
 *** 基础环境
 - python3
