@@ -18,9 +18,7 @@
      (sql . t)
      (C . t)
      (js . t))))
- '(package-selected-packages
-   (quote
-    (importmagic which-key dockerfile-mode treemacs docker docker-compose-mode eglot window-numbering use-package undo-tree smex pretty-mode paredit ox-jira org-timeline org-preview-html org-present org-pdfview org-bullets neotree multiple-cursors magit-org-todos magit-gitflow lsp-python ivy-rich ivy-hydra htmlize highlight-parentheses exec-path-from-shell doom-themes doom-modeline counsel auto-complete)))
+ '(python-shell-interpreter "python2")
  '(tramp-syntax (quote default) nil (tramp)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
