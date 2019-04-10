@@ -261,24 +261,25 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
 ** capture and agenda
 #+begin_src emacs-lisp
   (setq org-capture-templates
-        `(("i" "inbox" entry (file "~/.org/gtd/inbox.org")
+        `(("i" "inbox" entry (file "~/org/inbox.org")
            "* TODO %?")
-          ("p" "paper" entry (file "~/.org/papers/papers.org")
+          ("p" "paper" entry (file "~/org/papers/papers.org")
            "* TODO %(jethro/trim-citation-title \"%:title\")\n%a" :immediate-finish t)
-          ("e" "email" entry (file+headline "~/.org/gtd/emails.org" "Emails")
+          ("e" "email" entry (file+headline "~/org/emails.org" "Emails")
            "* TODO [#A] Reply: %a :@home:@school:" :immediate-finish t)
-          ("l" "link" entry (file "~/.org/gtd/inbox.org")
+          ("l" "link" entry (file "~/org/inbox.org")
            "* TODO %(org-cliplink-capture)" :immediate-finish t)
-          ("z" "elfeed-link" entry (file "~/.org/gtd/inbox.org")
+          ("z" "elfeed-link" entry (file "~/org/inbox.org")
            "* TODO %a\n" :immediate-finish t)
-          ("w" "Weekly Review" entry (file+olp+datetree "~/.org/gtd/reviews.org")
-           (file "~/.org/gtd/templates/weekly_review.org"))
-          ("s" "Snippet" entry (file "~/.org/deft/capture.org")
+          ("w" "Weekly Review" entry (file+olp+datetree "~/org/reviews.org")
+           (file "~/org/templates/weekly_review.org"))
+          ("s" "Snippet" entry (file "~/org/deft/capture.org")
            "* Snippet %<%Y-%m-%d %H:%M>\n%?")))
+  (global-set-key (kbd "H-s") 'org-capture)
 #+end_src
 
 #+RESULTS:
-| quote | (~/.org/gtd/inbox.org ~/.org/gtd/2018.org) |
+| p | paper | entry | (file ~/org/papers/papers.org) | * TODO %(jethro/trim-citation-title "%:title") |
 
 ** no-confirm for org-babel
 #+begin_src emacs-lisp
@@ -431,10 +432,15 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
   (use-package company
     :init
     (global-company-mode t)
-    (global-auto-composition-mode))
+    (global-auto-composition-mode)
+    :bind (
+           ("H-?" . lsp-describe-thing-at-point)
+           ("H-." . lsp-find-definition)
+           ))
 #+END_SRC
 
 #+RESULTS:
+: lsp-find-definition
 ** ycmd
 lsp最近好像不太好用,还是改用ycmd
 *** 基础环境
