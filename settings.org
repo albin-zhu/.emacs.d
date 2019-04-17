@@ -22,6 +22,14 @@
 #+RESULTS:
 
 * Default Settings  
+** truncate-lines
+#+begin_src emacs-lisp
+  (toggle-truncate-lines -1)
+#+end_src
+
+#+RESULTS:
+: Truncate long lines disabled
+
 ** tab
 #+BEGIN_SRC emacs-lisp
   (setq default-tab-width 4)
@@ -447,7 +455,7 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
 : lsp-find-definition
 
 #+END_SRC
-*** python
+*** COMMENT python
 #+BEGIN_SRC emacs-lisp
   (add-hook 'python-mode-hook `(lambda () (lsp)))
 #+END_SRC
@@ -554,3 +562,16 @@ magit最好用的,没有之一
 
 #+RESULTS:
 | multi-term |
+
+** COMMENT omnisharp
+#+begin_src emacs-lisp
+  (use-package omnisharp
+    :hook (csharp-mode-hook . omnisharp-mode))
+#+end_src
+
+** protobuf
+#+begin_src emacs-lisp
+  (use-package protobuf-mode)
+#+end_src
+
+#+RESULTS:
