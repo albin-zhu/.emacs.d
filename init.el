@@ -13,11 +13,13 @@
    (quote
     ((shell . t)
      (python . t)
-     (mysql . t)
      (emacs-lisp . t)
      (sql . t)
      (C . t)
      (js . t))))
+ '(package-selected-packages
+   (quote
+    (fontawesome dashboard youdao-dictionary go-mode lsp-go protobuf-mode omnisharp ob-mongo company-lsp zoom-window zoom window-numbering which-key use-package undo-tree treemacs solarized-theme smex paredit org-preview-html org-bullets multiple-cursors multi-term magit-org-todos magit-gitflow lsp-mode ivy-rich ivy-hydra htmlize highlight-parentheses exec-path-from-shell doom-themes doom-modeline dockerfile-mode docker-compose-mode docker counsel company)))
  '(python-shell-interpreter "python2")
  '(tramp-syntax (quote default) nil (tramp)))
 (custom-set-faces
