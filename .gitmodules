@@ -4,3 +4,6 @@
 [submodule "github/aweshell"]
 	path = github/aweshell
 	url = https://github.com/manateelazycat/aweshell
+[submodule "github/insert-translated-name"]
+	path = github/insert-translated-name
+	url = https://github.com/albin-zhu/insert-translated-name.git

@@ -45,8 +45,8 @@
   (setq mac-command-modifier 'hyper)
   (global-set-key (kbd "H-z") 'undo)
   (global-set-key (kbd "H-y") 'undo-tree-redo)
-  (global-set-key (kbd "C-H-f") 'toggle-frame-fullscreen)
-  (global-set-key (kbd "H-f") 'toggle-frame-maximized)
+  (global-set-key (kbd "H-<return>") 'toggle-frame-fullscreen)
+  (global-set-key (kbd "C-H-<return>") 'toggle-frame-maximized)
   (global-set-key (kbd "H-k") 'kill-this-buffer)
   (global-set-key (kbd "H-i") `(lambda () (interactive) (find-file, "~/.emacs.d/settings.org")))
   (global-set-key (kbd "H-q") 'kill-emacs)
@@ -564,7 +564,11 @@ magit最好用的,没有之一
 ** youdao
 #+begin_src emacs-lisp
     (use-package youdao-dictionary
-      :bind (("H-r" . youdao-dictionary-search-at-point+)))
+      :bind (
+             ("H-r" . youdao-dictionary-search-at-point+)
+             ;;("C-H-<SPC>" . youdao-dictionary-search-and-replace)
+             ))
+
 #+end_src
 
 #+RESULTS:
@@ -628,15 +632,15 @@ magit最好用的,没有之一
 
 * github
 ** aweshell
-#+begin_src elisp
+#+begin_src emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/github/aweshell")
   (require 'aweshell)
   (global-set-key (kbd "H-2") 'aweshell-toggle)
-
 #+end_src
 
 #+RESULTS:
 : aweshell-toggle
+
 ** awesome-pair
 #+begin_src emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/github/awesome-pair")
@@ -701,3 +705,15 @@ magit最好用的,没有之一
 
 #+RESULTS:
 : awesome-pair-jump-out-pair-and-newline
+
+** 英文不好,找google
+#+begin_src emacs-lisp
+  (add-to-list 'load-path "~/.emacs.d/github/insert-translated-name")
+  (require 'insert-translated-name)
+  (global-set-key (kbd "H-1") 'insert-translated-name-replace)
+#+end_src
+
+#+RESULTS:
+: insert-translated-name-replace
+
+

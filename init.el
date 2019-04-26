@@ -1,6 +1,7 @@
 (package-initialize)
 (require 'org)
 (org-babel-load-file "~/.emacs.d/settings.org")
+;;(load-file "~/.emacs.d/settings.el")
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
