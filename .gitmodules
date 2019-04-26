@@ -1,0 +1,6 @@
+[submodule "github/awesome-pair"]
+	path = github/awesome-pair
+	url = https://github.com/manateelazycat/awesome-pair
+[submodule "github/aweshell"]
+	path = github/aweshell
+	url = https://github.com/manateelazycat/aweshell

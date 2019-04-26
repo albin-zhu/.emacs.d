@@ -701,12 +701,3 @@ magit最好用的,没有之一
 
 #+RESULTS:
 : awesome-pair-jump-out-pair-and-newline
-** COMMENT awesome-tab
-#+begin_src emacs-lisp
-  (add-to-list 'load-path "~/.emacs.d/github/awesome-tab")
-  (require 'awesome-tab)
-  (setq awesome-tab-style 'sounded)
-#+end_src
-
-#+RESULTS:
-: awesome-tab
