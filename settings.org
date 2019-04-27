@@ -553,6 +553,31 @@ magit最好用的,没有之一
 #+END_SRC
 
 #+RESULTS:
+** 输入法
+*** 拼音
+#+begin_src emacs-lisp
+  (use-package pyim
+    :ensure nil
+    :demand t
+    :config
+    ;; 激活 basedict 拼音词库，五笔用户请继续阅读 README
+    (use-package pyim-wbdict
+      :ensure nil
+      :config (pyim-wbdict-v98-enable))
+
+    (setq default-input-method "pyim")
+    (setq pyim-default-scheme 'wubi)
+    ;; 我使用全拼
+
+    (setq pyim-page-tooltip 'popup)
+
+    ;; 选词框显示5个候选词
+    (setq pyim-page-length 5)
+    )
+#+end_src
+
+#+RESULTS:
+: t
 
 ** docker
 #+begin_src emacs-lisp
@@ -711,9 +736,19 @@ magit最好用的,没有之一
   (add-to-list 'load-path "~/.emacs.d/github/insert-translated-name")
   (require 'insert-translated-name)
   (global-set-key (kbd "H-1") 'insert-translated-name-replace)
+
+
+  (defun comment-in-chinese()
+    (interactive)
+    (comment-dwim nil)
+    (insert-translated-name-insert-original-translation)
+    )
+
+  (global-set-key (kbd "H-/") 'comment-in-chinese)
+  (global-set-key (kbd "C-\\") 'insert-translated-name-insert-original-translation)
 #+end_src
 
 #+RESULTS:
-: insert-translated-name-replace
+: insert-translated-name-insert-original-translation
 
 
