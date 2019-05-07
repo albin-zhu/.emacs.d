@@ -1,0 +1,9 @@
+#+title: readme
+
+* 弃用spacemacs,还是回到原来的配置
+本来一直是用spacemacs,但是近来代码写的少,Emacs主要是用来整理文档.
+* 适合哪些人
+不用想了,基本上只用于我在我的mac或者Arch上去用.
+arch上用的是btsync同步org-agenda
+osx上用的是icloud去进行同步beorg
+
