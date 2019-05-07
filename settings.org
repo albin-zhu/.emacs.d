@@ -20,6 +20,7 @@
 #+END_SRC
 
 #+RESULTS:
+: t
 
 * Default Settings  
 ** truncate-lines
@@ -68,7 +69,7 @@
    #+BEGIN_SRC emacs-lisp
      (tool-bar-mode -1)
      (scroll-bar-mode -1)
-     (menu-bar-mode -1)
+     ;;(menu-bar-mode -1)
 
      (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
      (add-to-list 'default-frame-alist '(ns-appearance . dark)) ;; assuming you are using a dark theme
@@ -180,7 +181,7 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
    #+RESULTS:
 
 *** TODO 这个还差一个中英文混排的问题，尤其是在 org-mode table 里
-** doom-theme
+** COMMENT doom-theme
   #+BEGIN_SRC emacs-lisp
     (use-package doom-themes
       :init
@@ -189,6 +190,15 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
   #+END_SRC
 
   #+RESULTS:
+** tao-theme
+#+begin_src emacs-lisp
+  (use-package tao-theme
+    :init
+    (setq custom-safe-themes t)
+    (load-theme 'tao-yang))
+#+end_src
+
+#+RESULTS:
 
 ** doom-mode-line
 这个还没有自定义，默认的已经足够我用的了
@@ -633,6 +643,19 @@ magit最好用的,没有之一
     :hook (csharp-mode-hook . omnisharp-mode))
 #+end_src
 
+** wakatime
+#+BEGIN_SRC emacs-lisp 
+  (use-package wakatime-mode
+    :init
+    (setq wakatime-api-key "26272c47-ba04-404b-89fb-493227361e26"
+          global-wakatime-mode t
+          wakatime-cli-path "/usr/local/bin/wakatime"
+          wakatime-python-bin "python")
+    )
+#+END_SRC
+
+#+RESULTS:
+
 ** protobuf
 #+begin_src emacs-lisp
   (use-package protobuf-mode)
@@ -665,6 +688,18 @@ magit最好用的,没有之一
 
 #+RESULTS:
 : aweshell-toggle
+** leetcode
+#+begin_src emacs-lisp
+  (use-package request-deferred)
+  (use-package graphql)
+  (add-to-list 'load-path "~/.emacs.d/github/leetcode")
+  (require 'leetcode)
+  (setq leetcode-account "albiny")
+  (setq leetcode-password "4WRKtBjQCK87QQs")
+#+end_src
+
+#+RESULTS:
+: 4WRKtBjQCK87QQs
 
 ** awesome-pair
 #+begin_src emacs-lisp
@@ -750,5 +785,15 @@ magit最好用的,没有之一
 
 #+RESULTS:
 : insert-translated-name-insert-original-translation
+
+** ultisnips
+yas用多了,换一个吧
+#+begin_src emacs-lisp
+  (add-to-list 'load-path "~/.emacs.d/github/yasnippet/")
+  (add-to-list 'load-path "~/.emacs.d/github/yasnippet-snippets/")
+  (require 'yasnippet-snippets)
+  (require 'yasnippet)
+  (yas-global-mode 1)
+#+end_src
 
 

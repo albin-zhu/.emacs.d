@@ -7,3 +7,12 @@
 [submodule "github/insert-translated-name"]
 	path = github/insert-translated-name
 	url = https://github.com/albin-zhu/insert-translated-name.git
+[submodule "github/leetcode"]
+	path = github/leetcode
+	url = https://github.com/kaiwk/leetcode.el.git
+[submodule "github/yasnippet"]
+	path = github/yasnippet
+	url = https://github.com/joaotavora/yasnippet.git
+[submodule "github/yasnippet-snippets"]
+	path = github/yasnippet-snippets
+	url = https://github.com/AndreaCrotti/yasnippet-snippets.git
