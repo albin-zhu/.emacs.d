@@ -8,6 +8,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(add-comment t)
+ '(deft-directory "/Users/albin/org/")
+ '(exec-path-from-shell-arguments (quote ("-l")))
  '(org-agenda-files
    (quote
     ("~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/web.org" "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/inbox.org")))
@@ -21,7 +23,7 @@
      (js . t))))
  '(package-selected-packages
    (quote
-    (chinese-wbim pyim-wbdict pyim fontawesome dashboard youdao-dictionary go-mode lsp-go protobuf-mode omnisharp ob-mongo company-lsp zoom-window zoom window-numbering which-key use-package undo-tree treemacs solarized-theme smex paredit org-preview-html org-bullets multiple-cursors multi-term magit-org-todos magit-gitflow lsp-mode ivy-rich ivy-hydra htmlize highlight-parentheses exec-path-from-shell doom-themes doom-modeline dockerfile-mode docker-compose-mode docker counsel company)))
+    (beacon slime twittering-mode rainbow-mode ag deft chinese-wbim pyim-wbdict pyim fontawesome dashboard youdao-dictionary go-mode lsp-go protobuf-mode omnisharp ob-mongo company-lsp zoom-window zoom window-numbering which-key use-package undo-tree treemacs solarized-theme smex paredit org-preview-html org-bullets multiple-cursors multi-term magit-org-todos magit-gitflow lsp-mode ivy-rich ivy-hydra htmlize highlight-parentheses exec-path-from-shell doom-themes doom-modeline dockerfile-mode docker-compose-mode docker counsel company)))
  '(python-shell-interpreter "python2")
  '(tramp-syntax (quote default) nil (tramp)))
 (custom-set-faces

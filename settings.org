@@ -22,7 +22,7 @@
 #+RESULTS:
 : t
 
-* Default Settings  
+* Default Settings
 ** truncate-lines
 #+begin_src emacs-lisp
   (toggle-truncate-lines -1)
@@ -69,7 +69,7 @@
    #+BEGIN_SRC emacs-lisp
      (tool-bar-mode -1)
      (scroll-bar-mode -1)
-     ;;(menu-bar-mode -1)
+     (menu-bar-mode -1)
 
      (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
      (add-to-list 'default-frame-alist '(ns-appearance . dark)) ;; assuming you are using a dark theme
@@ -167,6 +167,15 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
   (setq line-move-visual t)
 #+end_src
 
+** 鼠标支持
+#+BEGIN_SRC emacs-lisp
+  (xterm-mouse-mode 1)
+#+END_SRC
+
+#+RESULTS:
+: t
+
+
 * theme
 主题这一块还是想抄成 doom，毕竟比较好看
 ** font
@@ -181,7 +190,7 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
    #+RESULTS:
 
 *** TODO 这个还差一个中英文混排的问题，尤其是在 org-mode table 里
-** COMMENT doom-theme
+** doom-theme
   #+BEGIN_SRC emacs-lisp
     (use-package doom-themes
       :init
@@ -190,7 +199,7 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
   #+END_SRC
 
   #+RESULTS:
-** tao-theme
+** COMMENT tao-theme
 #+begin_src emacs-lisp
   (use-package tao-theme
     :init
@@ -234,6 +243,18 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
 
 #+RESULTS:
 : less-transparency
+** beacon
+#+BEGIN_SRC emacs-lisp
+  (use-package beacon
+    :init
+    (beacon-mode t)
+    (setq beacon-blink-delay '0.2)
+    (setq beacon-blink-when-focused 't)
+    (setq beacon-dont-blink-commands 'nil)
+    (setq beacon-push-mark '1))
+#+END_SRC
+
+#+RESULTS:
 
 * org-mode
 ** beautify
@@ -464,9 +485,17 @@ brew很好用,但它的安装路径,只会体现在shell variables里,我这里�
   (if (string= system-type "darwin")
       (require 'org-tempo))
 #+END_SRC
+** deft and ag
+#+BEGIN_SRC emacs-lisp
+  (use-package deft
+    :init
+    (setq deft-directory "~/org/"))
+#+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package ag)
+#+END_SRC
 
 #+RESULTS:
-
 
 * 基础补全
 ** company/lsp
@@ -663,6 +692,16 @@ magit最好用的,没有之一
 
 #+RESULTS:
 
+** slime
+#+BEGIN_SRC emacs-lisp
+  (use-package slime
+    :init
+    (setq inferior-lisp-program "/usr/local/bin/sbcl"
+          slime-contribs '(slime-fancy)))
+#+END_SRC
+
+#+RESULTS:
+
 * 启动页
 #+begin_src emacs-lisp
   (use-package dashboard
@@ -744,7 +783,7 @@ magit最好用的,没有之一
   (define-key awesome-pair-mode-map (kbd "=") 'awesome-pair-equal)
 
   (define-key awesome-pair-mode-map (kbd "%") 'awesome-pair-match-paren)
-  (define-key awesome-pair-mode-map (kbd "\"") 'awesome-pair-double-quote)
+  ;; (define-key awesome-pair-mode-map (kbd "\"") 'awesome-pair-double-quote)
 
   (define-key awesome-pair-mode-map (kbd "SPC") 'awesome-pair-space)
 
@@ -760,7 +799,7 @@ magit最好用的,没有之一
 
   (define-key awesome-pair-mode-map (kbd "M-p") 'awesome-pair-jump-right)
   (define-key awesome-pair-mode-map (kbd "M-n") 'awesome-pair-jump-left)
-  (define-key awesome-pair-mode-map (kbd "M-:") 'awesome-pair-jump-out-pair-and-newline)
+  (define-key awesome-pair-mode-map (kbd "M-:") 'awesome-pair-jump-out-pair-and-newline) 
 #+end_src
 
 #+RESULTS:
@@ -786,8 +825,7 @@ magit最好用的,没有之一
 #+RESULTS:
 : insert-translated-name-insert-original-translation
 
-** ultisnips
-yas用多了,换一个吧
+** yasnippet
 #+begin_src emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/github/yasnippet/")
   (add-to-list 'load-path "~/.emacs.d/github/yasnippet-snippets/")

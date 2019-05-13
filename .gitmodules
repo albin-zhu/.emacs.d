@@ -16,3 +16,6 @@
 [submodule "github/yasnippet-snippets"]
 	path = github/yasnippet-snippets
 	url = https://github.com/AndreaCrotti/yasnippet-snippets.git
+[submodule "github/webmacs"]
+	path = github/webmacs
+	url = https://github.com/parkouss/webmacs.git
